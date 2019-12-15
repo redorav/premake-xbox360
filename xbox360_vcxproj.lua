@@ -38,10 +38,28 @@
 		end
 	
 	end)
+
+--
+-- Extend generateDebugInformation
+--
 	
+	premake.override(vc2010, "generateDebugInformation", function(oldfn, cfg)
+	
+		if cfg.system == premake.XBOX360 then
+			if cfg.symbols == "Off" then
+				vc2010.element("GenerateDebugInformation", nil, "false")
+			elseif cfg.symbols ~= "Default" then
+				vc2010.element("GenerateDebugInformation", nil, "true")
+			end
+		else
+			return oldfn(cfg)
+		end
+	
+	end)
+
 	
 --
--- Extend configurationProperties.
+-- Extend configurationProperties
 --
 
 	premake.override(vc2010.elements, "configurationProperties", function(oldfn, cfg)
