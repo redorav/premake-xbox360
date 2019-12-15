@@ -335,7 +335,8 @@
 	
 		if cfg.system == premake.XBOX360 then		
 		
-			if (cfg.symbols == p.ON) or (cfg.symbols == "FastLink") then
+			if (cfg.symbols ~= p.OFF) and (cfg.symbols ~= p.DEFAULT) then
+			
 				if cfg.debugformat == "c7" then
 					value = "OldStyle"
 				else
@@ -343,15 +344,7 @@
 				end
 
 				vc2010.element("DebugInformationFormat", nil, value)
-			elseif cfg.symbols == p.OFF then
-				-- leave field blank for vs2013 and older to workaround bug
-				if _ACTION < "vs2015" then
-					value = ""
-				else
-					value = "None"
-				end
-
-				vc2010.element("DebugInformationFormat", nil, value)
+				
 			end
 			
 		else
